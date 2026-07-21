@@ -2,15 +2,19 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import os
 
-# Set page configuration
-st.set_page_config(page_title="Sonar Rock vs. Mine Predictor", layout="wide")
+# Get the directory where app.py is located
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Load model and dataset
+model_path = os.path.join(current_dir, 'model.pkl')
+data_path = os.path.join(current_dir, 'sonar data.csv')
+
+# Load model and dataset using absolute relative paths
 @st.cache_resource
 def load_data_and_model():
-    model = joblib.load('model.pkl')
-    sonar_data = pd.read_csv('sonar data.csv', header=None)
+    model = joblib.load(model_path)
+    sonar_data = pd.read_csv(data_path, header=None)
     return model, sonar_data
 
 model, sonar_data = load_data_and_model()
