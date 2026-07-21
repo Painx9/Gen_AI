@@ -22,8 +22,8 @@ def load_data_model_and_metrics():
     model = joblib.load(model_path)
     sonar_data = pd.read_csv(data_path, header=None)
     
-    # Recalculate train/test split accuracy metrics matching your training notebook
-    X = sonar_data.drop(columns=60, axis=1)
+    # Recalculate train/test split accuracy metrics (removed axis=1)
+    X = sonar_data.drop(columns=60)
     Y = sonar_data[60]
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.1, stratify=Y, random_state=1)
     
