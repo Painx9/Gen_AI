@@ -4,10 +4,13 @@ import json
 import streamlit as st
 from google import genai
 
-# configuring gemini - api key
-working_dir = os.path.dirname(os.path.abspath(__file__))
-config_data = json.load(open(f"{working_dir}/config.json"))
-GEMINI_API_KEY = config_data["GEMINI_API_KEY"]
+# Load API key safely for both local use and Streamlit Cloud secrets
+try:
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    working_dir = os.path.dirname(os.path.abspath(__file__))
+    config_data = json.load(open(f"{working_dir}/config.json"))
+    GEMINI_API_KEY = config_data["GEMINI_API_KEY"]
 
 # initialize the google genai client
 client = genai.Client(api_key=GEMINI_API_KEY)
