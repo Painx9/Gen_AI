@@ -38,12 +38,17 @@ elif page == "Make a Prediction":
     st.subheader("Test Sonar Instance Prediction")
     st.write("Click the button below to test a sample instance from the dataset through your Logistic Regression model.")
     
+    import random
+
     if st.button("Run Prediction on Sample", type="primary"):
-        # Grab a sample row from dataset features (Row 0)
-        sample_input = sonar_data.drop(columns=60).iloc[0].values.reshape(1, -1)
+        # Pick a random row from the dataset each time
+        random_index = random.randint(0, len(sonar_data) - 1)
+        
+        sample_input = sonar_data.drop(columns=60).iloc[random_index].values.reshape(1, -1)
         pred = model.predict(sample_input)[0]
         
+        st.write(f"Tested Row Index: {random_index}")
         if pred == 'M':
-            st.error("Prediction Result: Mine (M)")
+            st.error(f"Prediction Result: Mine (M)")
         else:
-            st.success("Prediction Result: Rock (R)")
+            st.success(f"Prediction Result: Rock (R)")
