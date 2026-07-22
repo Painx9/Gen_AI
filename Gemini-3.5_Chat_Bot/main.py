@@ -1,19 +1,7 @@
 import os
 import json
-
 import streamlit as st
 from google import genai
-
-# Load API key safely for both local use and Streamlit Cloud secrets
-try:
-    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-except Exception:
-    working_dir = os.path.dirname(os.path.abspath(__file__))
-    config_data = json.load(open(f"{working_dir}/config.json"))
-    GEMINI_API_KEY = config_data["GEMINI_API_KEY"]
-
-# initialize the google genai client
-client = genai.Client(api_key=GEMINI_API_KEY)
 
 # configuring streamlit page settings
 st.set_page_config(
@@ -22,12 +10,34 @@ st.set_page_config(
     layout="centered"
 )
 
+# streamlit page title
+st.title("🤖 Gemini - ChatBot")
+
+# Sidebar for user inputs / API key
+with st.sidebar:
+    st.header("Configuration")
+    user_api_key = st.text_input("Enter your Gemini API Key:", type="password")
+    st.markdown("[Get a Gemini API Key from Google AI Studio](https://aistudio.google.com/)")
+    st.markdown("---")
+    if st.button("Clear Chat History"):
+        st.session_state.chat_history = []
+        st.rerun()
+
+# Check if API key is provided before proceeding
+if not user_api_key:
+    st.warning("Please enter your Gemini API key in the sidebar to start chatting.")
+    st.stop()
+
+# Initialize the Google Genai client with the user's provided key
+try:
+    client = genai.Client(api_key=user_api_key)
+except Exception as e:
+    st.error(f"Invalid API client initialization: {e}")
+    st.stop()
+
 # initialize chat session in streamlit if not already present
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
-
-# streamlit page title
-st.title("🤖 Gemini 3.5 Flash-Lite - ChatBot")
 
 # display chat history
 for message in st.session_state.chat_history:
@@ -59,6 +69,6 @@ if user_prompt:
         # display Gemini's response
         with st.chat_message("assistant"):
             st.markdown(assistant_response)
-
+            
     except Exception as e:
         st.error(f"An error occurred: {e}")
