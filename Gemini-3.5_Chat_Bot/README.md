@@ -1,11 +1,12 @@
 #  Gemini 3.5 Flash-Lite ChatBot
 
-An interactive, web-based conversational AI application built with **Streamlit** and powered by Google's **Gemini API** (`google-genai` SDK). This chatbot maintains session context across conversations and features secure API key management for both local development and cloud deployment.
+An interactive, web-based conversational AI application built with Streamlit and powered by Google's Gemini API (google-genai SDK). This application allows users to input their own Gemini API key directly into the sidebar to chat with the model while preserving session context throughout the conversation.
 
 ---
 
 ##  Features
 
+* ** User-Provided API Keys:** Users securely input their own Gemini API key directly via the sidebar interface.
 * ** Interactive Chat UI:** Clean and responsive user interface built using Streamlit's native chat components.
 * ** Context Awareness:** Keeps track of chat history during your active session to maintain smooth multi-turn conversations.
 * ** Powered by Gemini:** Utilizes Google's fast and efficient `gemini-3.5-flash-lite` model for speedy responses.
@@ -29,7 +30,6 @@ Gemini-3.5_Chat_Bot/
 ├── requirements.txt     # Python dependencies
 ├── .gitignore          # Keeps secrets and local environments off GitHub
 ├── README.md            # Project documentation
-└── config.json          # Local API configuration (ignored in Git for security)
 ```
 # Getting Started (Local Setup)
 
@@ -46,14 +46,6 @@ cd Gen_AI/Gemini-3.5_Chat_Bot
 3. Install Dependencies
 ```Bash
 pip install -r requirements.txt
-```
-4. Configure Your API Key
-Create a ```config.json``` file in the root of the project directory:
-```
-JSON
-{
-  "GEMINI_API_KEY": "YOUR_ACTUAL_GEMINI_API_KEY"
-}
 ```
 5. Run the Application
 ```Bash
@@ -76,11 +68,6 @@ Branch:```main```
 
 Main file path: ```Gemini-3.5_Chat_Bot/main.py```
 
-Open Advanced settings > Secrets and add your API key in TOML format:
-```
-Ini, TOML
-GEMINI_API_KEY = "YOUR_ACTUAL_GEMINI_API_KEY"
-```
 Click Deploy!
 
 ## License
